@@ -1,10 +1,9 @@
 .navbar {
-    background: linear-gradient(135deg, #001F3F, #003366, #0862bc);
+    background: linear-gradient(135deg, #001F3F, #003366, #025ab3);
     color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 40px;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
   }
   
@@ -18,7 +17,7 @@
   .nav-links {
     list-style: none;
     display: flex;
-    gap: 30px;
+    gap: 20px;
   }
   
   .nav-links li {
@@ -42,5 +41,67 @@
   .nav-links li:hover {
     background: rgba(255, 255, 255, 0.15);
     transform: translateY(-3px);
+  }
+  
+  .logout-btn {
+    margin-left: 10px;
+    padding: 6px 12px;
+    border: none;
+    background: #ff4d4d;
+    color: white;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .logout-btn:hover {
+    background: #cc0000;
+  }
+  
+
+  .profile-dropdown {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .profile-icon {
+    color: #fff;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .profile-icon:hover {
+    transform: scale(1.1);
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    right: 0;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 150px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .dropdown-item {
+    padding: 10px;
+    text-align: left;
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f2f2f2;
+  }
+  
+  .logout-btn {
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
   }
   

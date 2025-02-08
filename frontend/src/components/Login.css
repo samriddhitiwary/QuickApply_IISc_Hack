@@ -1,0 +1,63 @@
+/* Login.css */
+.modal-content {
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal-header {
+    background-color: #007bff;
+    color: white;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+  
+  .modal-title {
+    font-size: 22px;
+    font-weight: bold;
+  }
+  
+  .modal-body {
+    padding: 20px;
+  }
+  
+  .alert {
+    font-size: 14px;
+  }
+  
+  .form-label {
+    font-weight: bold;
+  }
+  
+  .form-control {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+  }
+  
+  .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  button.w-100 {
+    border-radius: 8px;
+    font-size: 16px;
+  }
+  
+  button.w-100:hover {
+    opacity: 0.9;
+  }
+  
+  .text-center {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  

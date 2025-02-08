@@ -3,6 +3,9 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import cors from "cors";
+import userRoute from "./routes/ProfileRoute.js";
+import getPDFrouter from "./routes/PdfRoute.js";
+
 
 
 const app = express();
@@ -27,4 +30,6 @@ mongoose
     console.error("DB connection failed:", error);
   });
 
-
+  app.use("/api/user", userRoute);
+  app.use("/api/pdfdetails", getPDFrouter);
+  
