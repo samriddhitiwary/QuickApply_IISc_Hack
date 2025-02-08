@@ -30,11 +30,11 @@ const PDFHandler = () => {
     fetchResumes();
   }, [employeeId]);
 
-  const handleOpenPDFModal = async (resumeId) => {
-    if (resumeId) {
+  const handleOpenPDFModal = async (employeeId) => {
+    if (employeeId) {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/pdfdetails/getById/${resumeId}`,
+          `http://localhost:8000/api/pdfdetails/getPDFsByEmployeeId/${employeeId}`,
           { responseType: "arraybuffer" }
         );
         const blob = new Blob([response.data], { type: "application/pdf" });
@@ -56,11 +56,11 @@ const PDFHandler = () => {
       return;
     }
     const formData = new FormData();
-    formData.append("pdf", selectedFile);
+    formData.append("file", selectedFile);
     formData.append("employeeId", employeeId);
     
     try {
-      const response = await axios.post("http://localhost:8000/api/pdfdetails/upload", formData, {
+      const response = await axios.post("http://localhost:8000/api/pdfdetails/create", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       alert("Resume uploaded successfully");
@@ -97,7 +97,7 @@ const PDFHandler = () => {
                 <td>{resume.EmplyeeName}</td>
                 <td>{new Date(resume.date).toLocaleDateString()}</td>
                 <td>
-                  <Button onClick={() => handleOpenPDFModal(resume._id)}>
+                  <Button onClick={() => handleOpenPDFModal(employeeId._id)}>
                     View Resume
                   </Button>
                 </td>
