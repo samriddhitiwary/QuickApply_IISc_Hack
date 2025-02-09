@@ -1,6 +1,7 @@
 import User from "../models/ProfileModel.js";
 
 export const create = async(req, res)=>{
+    console.log("I AM INSIDE CREATE", req.body)
     try {
 
         const userData = new User(req.body);
@@ -50,6 +51,7 @@ export const getUserByEmailId = async(req, res)=>{
 }
 
 export const update = async(req, res) =>{
+    console.log("SAMRIDDHI  ", req.body)
     try {
 
         const id = req.params.id;

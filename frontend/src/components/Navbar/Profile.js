@@ -65,23 +65,27 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchUser = async (email) => {
+      if (!email) return; // Prevent API call if email is missing
+  
       try {
         const response = await axios.get(
           `http://localhost:8000/api/user/getuserbyemail?email=${email}`
         );
-        if (response.data) {
-          const dob = dateFromDateString(response.data.dob);
-          response.data.dob = dob;
-          setUser(response.data);
+  
+        if (response.data && Object.keys(response.data).length > 0) {
+          const dob = response.data.dob ? dateFromDateString(response.data.dob) : '';
+          setUser({ ...response.data, dob });
           setIsExistingUser(true);
-          sessionStorage.setItem('userdata', JSON.stringify(response.data));
+          sessionStorage.setItem('userdata', JSON.stringify({ ...response.data, dob }));
+        } else {
+          setIsExistingUser(false);
         }
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching user:', error);
         setIsExistingUser(false);
       }
     };
-
+  
     const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
       if (firebaseUser) {
         setFirebaseUser(firebaseUser);
@@ -90,10 +94,10 @@ const Profile = () => {
         navigate('/login');
       }
     });
-
+  
     return () => unsubscribe();
   }, [navigate]);
-
+  
   const handleLogout = () => {
     auth.signOut();
     navigate('/');
