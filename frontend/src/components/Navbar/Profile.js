@@ -84,6 +84,26 @@ const Profile = () => {
     return <div>Loading...</div>;
   }
 
+  const fetchResumeData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/pdfdetails/getPDFsByEmployeeId/${user._id}`);
+      if (response.data) {
+        setUser((prevUser) => ({
+          ...prevUser,
+          ...response.data, // Populate with fetched resume data
+        }));
+        toast.success("Resume data applied!", { position: 'top-right' });
+      } else {
+        toast.error("No resume data found!", { position: 'top-right' });
+      }
+    } catch (error) {
+      console.error("Error fetching resume data:", error);
+      toast.error("Failed to fetch resume data!", { position: 'top-right' });
+    }
+  };
+  
+ 
+
   return (
     <>
       <Container className="profile-container">
