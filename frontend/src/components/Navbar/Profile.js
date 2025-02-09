@@ -55,6 +55,7 @@ const Profile = () => {
       if (!email) return;
       try {
         const response = await axios.get(`http://localhost:8000/api/user/getuserbyemail?email=${email}`);
+        console.log("SAMRIDDHI TIWAYUGUY:" ,response);
         if (response.data && Object.keys(response.data).length > 0) {
           const dob = response.data.dob ? dateFromDateString(response.data.dob) : '';
           setUser({ ...response.data, dob });
@@ -96,6 +97,30 @@ const Profile = () => {
       } else {
         toast.error("No resume data found!", { position: 'top-right' });
       }
+    } catch (error) {
+      console.error("Error fetching resume data:", error);
+      toast.error("Failed to fetch resume data!", { position: 'top-right' });
+    }
+  };
+
+  const fetchResumeDataFromPDF = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/pdfdetails/populate_data_by_resume/${firebaseUser.email}`);
+      
+      if (response.data) {
+        setUser((prevUser) => ({
+          ...prevUser,
+          ...response.data.data, // Populate with fetched resume data
+        }));
+        // setUser({... response.data.data})
+        console.log("RESPONSE DATA", response.data)
+        console.log("MY USER", user)
+        toast.success("Resume data applied!", { position: 'top-right' });
+        // navigate('/profile');
+      } else {
+        toast.error("No resume data found!", { position: 'top-right' });
+      }
+     
     } catch (error) {
       console.error("Error fetching resume data:", error);
       toast.error("Failed to fetch resume data!", { position: 'top-right' });
@@ -242,13 +267,16 @@ const Profile = () => {
 
   <Row className="mb-3">
     <Col md={12}>
-    <PDFHandler />
+    <PDFHandler email = {firebaseUser.email} />
     </Col>
   </Row>
 
   <div className="d-flex justify-content-center mt-4">
     <Button type="submit" variant="primary" className="btn-3d">
       {isExistingUser ? 'Update Profile' : 'Create Profile'}
+    </Button>
+    <Button variant="primary" className="btn-3d" onClick={fetchResumeDataFromPDF}>
+      Populate By Resume
     </Button>
   </div>
 </Form>

@@ -13,12 +13,22 @@ const CMAP_PACKED = true;
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 
+// const ProfileSchema = z.object({
+//   fname: z.string().or(z.literal("Not Found")),
+//   lname: z.string().or(z.literal("Not Found")),
+//   education: z.array(z.string()).or(z.literal("Not Found")),
+//   skills: z.array(z.string()).or(z.literal("Not Found")),
+//   experience: z.array(z.string()).or(z.literal("Not Found")),
+//   phone: z.string().or(z.literal("Not Found")),
+//   dob: z.string().or(z.literal("Not Found")),
+// });
+
 const ProfileSchema = z.object({
   fname: z.string().or(z.literal("Not Found")),
   lname: z.string().or(z.literal("Not Found")),
-  education: z.array(z.string()).or(z.literal("Not Found")),
-  skills: z.array(z.string()).or(z.literal("Not Found")),
-  experience: z.array(z.string()).or(z.literal("Not Found")),
+  education: (z.string()).or(z.literal("Not Found")),
+  skills: (z.string()).or(z.literal("Not Found")),
+  experience: (z.string()).or(z.literal("Not Found")),
   phone: z.string().or(z.literal("Not Found")),
   dob: z.string().or(z.literal("Not Found")),
 });
@@ -72,7 +82,7 @@ const readPdf = async (filePath) => {
  * Extracts resume details using OpenAI.
  * @param {string} filePath - Path to the PDF file.
  */
-const extractResumeData = async (filePath) => {
+export const extractResumeData = async (filePath) => {
   console.log("Extracting Resume Data...");
   try {
     const extractedText = await readPdf(filePath);
@@ -106,7 +116,8 @@ const extractResumeData = async (filePath) => {
 
     const resumeData = completion.choices[0].message.content;
     const parsedData = JSON.parse(resumeData); // Ensure it's properly parsed
-    console.log("Extracted Resume Data (JSON):\n", parsedData);
+    return parsedData;
+    // console.log("Extracted Resume Data (JSON):\n", parsedData);
     
     // return ResumeSchema.parse(parsedData); // Validate with Zod
   } catch (error) {
@@ -115,4 +126,4 @@ const extractResumeData = async (filePath) => {
 };
 
 // Run the function
-extractResumeData("./uploads/1739027030127-Samriddhi.pdf");
+// extractResumeData("./uploads/1739027030127-Samriddhi.pdf");

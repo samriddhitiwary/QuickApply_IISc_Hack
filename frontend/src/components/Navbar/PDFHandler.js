@@ -3,7 +3,7 @@ import axios from "axios";
 import { Button, Form } from "react-bootstrap";
 import "./PDFHandler.css";
 
-const PDFHandler = () => {
+const PDFHandler = ({email}) => {
   const [allResumes, setAllResumes] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadedResumeId, setUploadedResumeId] = useState(null);
@@ -15,7 +15,7 @@ const PDFHandler = () => {
       try {
         if (employeeId) {
           const response = await fetch(
-            `http://localhost:8000/api/pdfdetails/getPDFsByEmployeeId/${employeeId}`
+            `http://localhost:8000/api/pdfdetails/get-pdf/${email}`
           );
           const data = await response.json();
           if (data && data.data) {
@@ -30,11 +30,11 @@ const PDFHandler = () => {
     fetchResumes();
   }, [employeeId]);
 
-  const handleOpenPDFModal = async (employeeId) => {
-    if (employeeId) {
+  const handleOpenPDFModal = async (email) => {
+    if (email) {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/pdfdetails/getPDFsByEmployeeId/${employeeId}`,
+          `http://localhost:8000/api/pdfdetails/get-pdf/${email}`,
           { responseType: "arraybuffer" }
         );
         const blob = new Blob([response.data], { type: "application/pdf" });
@@ -60,9 +60,11 @@ const PDFHandler = () => {
     formData.append("employeeId", employeeId);
     
     try {
-      const response = await axios.post("http://localhost:8000/api/pdfdetails/create", formData, {
+      console.log("hbukshcslhnc")
+      const response = await axios.post(`http://localhost:8000/api/pdfdetails/create/${email}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+      console.log(response)
       alert("Resume uploaded successfully");
       setUploadedResumeId(response.data.resumeId);
       window.location.reload();
@@ -77,37 +79,14 @@ const PDFHandler = () => {
         <Form.Control type="file" accept="application/pdf" onChange={handleFileChange} />
         <Button onClick={handleUpload} className="upload-btn">Upload Resume</Button>
         {uploadedResumeId && (
-          <Button onClick={() => handleOpenPDFModal(uploadedResumeId)} className="view-uploaded-btn">
+          <Button onClick={() => handleOpenPDFModal(email)} className="view-uploaded-btn">
             View Uploaded Resume
           </Button>
         )}
       </Form.Group>
-      {allResumes.length > 0 ? (
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Employee Name</th>
-              <th>Date</th>
-              <th>Resume</th>
-            </tr>
-          </thead>
-          <tbody>
-            {allResumes.map((resume) => (
-              <tr key={resume._id}>
-                <td>{resume.EmplyeeName}</td>
-                <td>{new Date(resume.date).toLocaleDateString()}</td>
-                <td>
-                  <Button onClick={() => handleOpenPDFModal(employeeId._id)}>
+      <Button onClick={() => handleOpenPDFModal(email)}>
                     View Resume
                   </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p className="no-data">No resumes found.</p>
-      )}
     </div>
   );
 };

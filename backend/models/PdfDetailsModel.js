@@ -1,20 +1,18 @@
 import mongoose from "mongoose";
+import { date } from "zod";
 
 const PdfDetailsSchema = new mongoose.Schema({
-    employeeId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
-    },
-    employeeName: {
+       email: {
         type: String,
+        
         required: true,
     },
-    
-    date:{
+    date: {
         type: Date,
+        default: Date.now,
         required:true,
-    },
+    }
+    ,
     pdf: {
         type:  mongoose.Schema.Types.Mixed, 
         required: true,
